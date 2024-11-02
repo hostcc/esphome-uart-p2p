@@ -64,20 +64,20 @@ void UartP2pReceiver::handle_uart_data(const uint8_t *data, size_t size) {
         case SensorType::NUMERIC: {
           float receivedValue;
           memcpy(&receivedValue, data + headerSize, sizeof(float));
-          ESP_LOGI(TAG, "Received value for address 0x%02X: %f", address, receivedValue);
+          ESP_LOGD(TAG, "Received value for address 0x%02X: %f", address, receivedValue);
           sensor_info.sensor->publish_state(receivedValue);
           break;
         }
         case SensorType::BINARY: {
           uint8_t receivedValue;
           memcpy(&receivedValue, data + headerSize, sizeof(uint8_t));
-          ESP_LOGI(TAG, "Received binary value for address 0x%02X: %d", address, receivedValue);
+          ESP_LOGD(TAG, "Received binary value for address 0x%02X: %d", address, receivedValue);
           sensor_info.binary_sensor->publish_state(static_cast<bool>(receivedValue));
           break;
         }
         case SensorType::TEXT: {
           std::string textValue = std::string((char *)data + headerSize, sizeOfData);
-          ESP_LOGI(TAG, "Received text value for address 0x%02X: %s", address, textValue.c_str());
+          ESP_LOGD(TAG, "Received text value for address 0x%02X: %s", address, textValue.c_str());
           sensor_info.text_sensor->publish_state(textValue);
           break;
         }
